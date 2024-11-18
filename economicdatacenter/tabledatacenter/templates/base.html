@@ -1,0 +1,266 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link href={% static "img/favicon.ico" %} rel="shortcut icon">
+    <!-- Logo -->
+    <link href={% static "img/logo.ico" %} rel="shortcut icon">
+    <!-- Bootstarp 5 Css    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <!-- Static CSS -->
+    <link href={% static "css/style.css" %} rel="stylesheet">
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.2/b-2.3.4/b-html5-2.3.4/b-print-2.3.4/datatables.min.css"/><title>Links Directory</title>
+    <!-- Bootstarp 5 Icon    -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="col-sm">
+                    <a class="navbar-brand flex-grow-1" style="text-align: center; color: #fff; margin-left: 25px;">
+                        {% block navbar-content %} {% endblock navbar-content %}
+                    </a>
+                </div>
+                <!-- Input Search Outside -->
+                <div class="d-flex" style="margin-right: 25px;">
+                    <div class="input-group input-group-sm">    
+                        <input class="form-control" type="search" id="search" placeholder="Live search..." aria-label="Search">
+                        <a href="{% url 'home' %}" class="btn btn-secondary btn-sm"><i class="fas fa-sync-alt"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    
+    {% block content %} {% endblock content %}
+
+    <!-- ==== INCLUDE PAGE ==== -->
+    
+    </div> <!-- END // wrapper -->
+
+    <footer class="bg-dark text-center text-lg-start" id="footer" style="color: #fff;">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy; {% now "Y" %} Copyright:
+            <a class="text-light" href="#" style="text-decoration: none;">
+                <span style="color: lightskyblue;">links-directory</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- Datatables JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.13.2/b-2.3.4/b-html5-2.3.4/b-print-2.3.4/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    
+    <!-- Datatables script -->
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                // Datatables configurations
+                paging: false, // Pagination
+                // pageLength: 10, // Data per page
+                lengthChange: true, // Show entries per page
+                autoWidth: false, // Control the auto width on columns
+                searching: true, // Input search
+                bInfo: true, // Info on footer
+                bSort: true, // Filter A to Z and Z to A and numbers
+                
+                /* order: [], // Disable Order By of datatables
+                orderCellsTop: true, // Put the filter A to Z and Zto A on TOP (first Thead)
+                scrollX: true, // Enable the scroll horizontal
+                fixedHeader: true, // Force Thead fixed */
+                
+                // BUTTONS
+                dom: 'lBfrtip',
+                buttons: [
+                    {   // COPY
+                        extend:'copy',
+                        text: '<i class="fas fa-clone"></i>',
+                        className: 'btn btn-secondary btn-sm',
+                        titleAttr: 'Copy',
+                        // Choose the columns you with to copy
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        },
+                    },
+                    {   // EXCEL
+                        extend:'excel',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        className: 'btn btn-secondary btn-sm',
+                        titleAttr: 'Excel',
+                        // Choose the columns you with to export to excel
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        },
+                    },
+                    {   // PRINT
+                        extend:'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'btn btn-secondary btn-sm',
+                        titleAttr: 'Print',
+                        // Choose the columns you with to print
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        },
+                        // Font size (when export to print)
+                        customize: function ( win ) {
+                            $(win.document.body).css('font-size', '10pt')
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    },
+                    {   // PDF
+                        extend:'pdf',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        className: 'btn btn-secondary btn-sm',
+                        titleAttr: 'PDF',
+                        // Choose the columns you with to export to PDF
+                        exportOptions: {
+                            columns: [0, 1, 2, 3]
+                        },
+                        // Center the table
+                        tableHeader: {
+                            alignment: 'center'
+                        },
+                        // Font size and optimization
+                        customize: function (doc) {
+                            doc.styles.tableHeader.alignment = 'center'; // Header position
+                            doc.styles.tableBodyOdd.alignment = 'center'; // Body position 1 (grey color)
+                            doc.styles.tableBodyEven.alignment = 'center'; // Body position 1 (white color)
+                            doc.styles.tableHeader.fontSize = 7; // Header font-size
+                            doc.defaultStyle.fontSize = 6 // Body font-size
+                            // To get 100% width of the table
+                            doc.content[1].table.widths = Array(doc.content[1].table.body[1].length + 1).join('*').split('');
+                        }
+                    },  
+                ]
+            });
+
+            $('.filter-checkbox').on('change', function(e){
+                var searchTerms = []
+                $.each($('.filter-checkbox'), function(i,elem){
+                    if($(elem).prop('checked')){
+                        searchTerms.push("^" + $(this).val() + "$")
+                    }
+                })
+                table.column(1).search(searchTerms.join('|'), true, false, true).draw();
+            });
+        
+            $('.status-dropdown').on('change', function(e){
+                var status = $(this).val();
+                $('.status-dropdown').val(status)
+                console.log(status)
+                //dataTable.column(6).search('\\s' + status + '\\s', true, false, true).draw();
+                table.column(0).search(status).draw();
+            });
+            
+            // Enable Searchbox Outside
+            var newSearch = $("#example").DataTable();
+            $('#search').keyup(function() {
+                newSearch.search($(this).val()).draw();
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script>
+    <script>
+        // Initialize the chart variable
+        let dataChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.show-data-btn');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const name = button.getAttribute('data-name');
+                    const country = button.getAttribute('data-country');
+
+                    // Fetch the data from the backend
+                    const response = await fetch(`/fetch-data/?name=${name}&country=${country}`);
+                    const result = await response.json();
+                    const { dates, data, unit } = result;
+
+                    // Update modal title
+                    document.getElementById('staticBackdropLabel').textContent = `${country} - ${name}`;
+
+                    // Destroy previous chart instance if it exists
+                    if (dataChart) {
+                        dataChart.destroy();
+                    }
+
+                    // Create the chart
+                    const ctx = document.getElementById('dataChart').getContext('2d');
+                    dataChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: name,
+                                data: data,
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderWidth: 2,
+                                fill: true,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: `Value (${unit})` // Set the Y-axis label with the unit
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Date'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Update the horizontal table
+                    const table = document.getElementById('horizontal-data-table');
+                    const headerRow = table.querySelector('thead tr:nth-child(1)');
+                    const dataRow = table.querySelector('thead tr:nth-child(2)');
+
+                    // Clear existing table content
+                    headerRow.innerHTML = '<th style="font-family: Verdana, sans-serif; font-size: 12px; text-align: center;">Date</th>';
+                    dataRow.innerHTML = '<th style="font-family: Verdana, sans-serif; font-size: 12px; text-align: center;">Data</th>';
+
+                    // Populate the table with dates and data
+                    dates.forEach((date, index) => {
+                        headerRow.innerHTML += `<th style="font-family: Verdana, sans-serif; font-size: 12px; text-align: center; font-weight: normal;">${date}</th>`;
+                        dataRow.innerHTML += `<th style="font-family: Verdana, sans-serif; font-size: 12px; text-align: center; font-weight: normal;">${data[index]}</th>`;
+                    });
+
+                    // Show the modal
+                    const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

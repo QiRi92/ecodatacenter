@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+<!-- Navbar content -->
+{% block navbar-content %} 
+<i style="color: lightskyblue;" class="fas fa-user-alt"></i>&nbsp;&nbsp; Links Directory
+{% endblock navbar-content %}
+
+<!-- Page Content -->
+{% block content %}
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container">
+    <br><br>
+    
+    <table class="table table-striped" id="example" style="text-align: center;">
+        <thead class="table-info">
+            <tr>
+                <th style="text-align: center;">Country</th>
+                <th style="text-align: center;">Topics</th>
+                <th style="text-align: center;">Name</th>
+                <th style="text-align: center;">Last Update</th>
+                <th style="text-align: center;">Data</th>
+            </tr>
+        </thead>
+        <!-- Data from backend -->
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td style="font-family: Verdana, sans-serif; font-size: 12px; text-align: left;">{{ item.country }}</td>
+                <td style="font-family: Verdana, sans-serif; font-size: 12px; text-align: left;">{{ item.topic }}</td>
+                <td style="font-family: Verdana, sans-serif; font-size: 12px; text-align: left;">{{ item.name }}</td>
+                <td style="font-family: Verdana, sans-serif; font-size: 12px;">{{ item.date }}</td>    
+                <td>
+                    <button style="font-family: Verdana, sans-serif; font-size: 12px;" type="button"
+                            class="btn btn-primary btn-sm show-data-btn"
+                            data-name="{{ item.name }}" data-country="{{ item.country }}">
+                        Show
+                    </button>
+                
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #cff4fc;">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Graph Container -->
+                                    <div>
+                                        <canvas id="dataChart" width="400" height="400"></canvas>
+                                    </div>
+                                    <!-- Horizontal Table Container -->
+                                    <div style="margin-top: 20px; overflow-x: auto;">
+                                        <table class="table table-bordered table-sm" id="horizontal-data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;">Date</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: center;">Data</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div> <!-- END // container -->
+
+<br><br><br><br>
+
+{% endblock content %}
